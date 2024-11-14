@@ -4,13 +4,13 @@ import controle.Controle;
 
 public class Academia {
     public static void main(String[] args) {
-        // Criando uma nova reserva e adicionando um cliente automaticamente
-        Controle controller = new Controle("João Silva", "joao.silva@example.com");
+        Controle controller = new Controle("12345", "Maria Santos", "2024-11-15");
 
         System.out.println("Simulando controle de reservas na academia:");
         controller.confirmarReserva();
-        controller.cancelarReserva();
         controller.concluirReserva();
+        controller.cancelarReserva(); // Tentativa de cancelamento após conclusão
+        controller.cancelarDefinitivamente(); // Verificação de cancelamento definitivo
     }
 }
 

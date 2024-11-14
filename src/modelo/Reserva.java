@@ -5,35 +5,63 @@ package modelo;
 // import modelo.ReservaConfirmada;
 
 public class Reserva extends Observable {
-    private EstadoReserva estadoAtual;
-    private Cliente cliente; // Novo atributo para o cliente
+    private String idReserva;
+    private String nomeCliente;
+    private String dataReserva;
+    private EstadoReserva estado;
 
-    public Reserva(Cliente cliente) {
-        this.estadoAtual = new ReservaConfirmada(); // Estado inicial
-        this.cliente = cliente; // Cliente adicionado automaticamente
-        System.out.println("Novo pedido criado e cliente adicionado: " + cliente);
-        notifyObservers("Nova reserva criada para o cliente: " + cliente.getNome());
+    public Reserva(String idReserva, String nomeCliente, String dataReserva) {
+        this.idReserva = idReserva;
+        this.nomeCliente = nomeCliente;
+        this.dataReserva = dataReserva;
+        this.estado = new ReservaPendente(); // Estado inicial
+
+        System.out.println("Reserva criada: ID = " + idReserva + ", Cliente = " + nomeCliente + ", Data = " + dataReserva);
+        notifyObservers("Reserva inicializada para o cliente: " + nomeCliente);
     }
 
     public void setEstado(EstadoReserva estado) {
-        this.estadoAtual = estado;
-        notifyObservers("Estado da reserva mudou.");
+        this.estado = estado;
+        System.out.println("Estado da reserva atualizado para: " + estado.getClass().getSimpleName());
+        notifyObservers("Estado da reserva alterado para: " + estado.getClass().getSimpleName());
     }
 
-    public EstadoReserva getEstadoAtual() {
-        return estadoAtual;
+    public EstadoReserva getEstado() {
+        return estado;
+    }
+
+    public String getIdReserva() {
+        return idReserva;
+    }
+
+    public String getNomeCliente() {
+        return nomeCliente;
+    }
+
+    public String getDataReserva() {
+        return dataReserva;
     }
 
     public void confirmar() {
-        estadoAtual.confirmar();
+        estado.confirmar();
     }
 
     public void cancelar() {
-        estadoAtual.cancelar();
+        estado.cancelar();
     }
 
     public void concluir() {
-        estadoAtual.concluir();
+        estado.concluir();
+    }
+
+    @Override
+    public String toString() {
+        return "ReservaTAD{" +
+                "idReserva='" + idReserva + '\'' +
+                ", nomeCliente='" + nomeCliente + '\'' +
+                ", dataReserva='" + dataReserva + '\'' +
+                ", estado=" + estado.getClass().getSimpleName() +
+                '}';
     }
 }
 

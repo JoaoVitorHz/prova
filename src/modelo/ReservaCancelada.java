@@ -3,7 +3,7 @@ package modelo;
 public class ReservaCancelada implements EstadoReserva {
     @Override
     public void confirmar() {
-        System.out.println("A reserva foi cancelada, não pode ser confirmada.");
+        System.out.println("A reserva foi cancelada e não pode ser confirmada.");
     }
 
     @Override
