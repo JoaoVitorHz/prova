@@ -2,7 +2,6 @@
 package controle;
 
 import modelo.Reserva;
-import modelo.Cliente;
 import modelo.Observer;
 import modelo.ReservaCancelada;
 import modelo.ReservaConcluida;
