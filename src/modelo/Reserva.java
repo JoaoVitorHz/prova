@@ -1,9 +1,5 @@
 package modelo;
 
-// import modelo.Observable;
-// import modelo.EstadoReserva;
-// import modelo.ReservaConfirmada;
-
 public class Reserva extends Observable {
     private String idReserva;
     private String nomeCliente;
@@ -11,19 +7,37 @@ public class Reserva extends Observable {
     private EstadoReserva estado;
 
     public Reserva(String idReserva, String nomeCliente, String dataReserva) {
-        this.idReserva = idReserva;
-        this.nomeCliente = nomeCliente;
-        this.dataReserva = dataReserva;
-        this.estado = new ReservaPendente(); // Estado inicial
+        try {
+            this.idReserva = idReserva;
+            this.nomeCliente = nomeCliente;
+            this.dataReserva = dataReserva;
+            this.estado = new ReservaPendente(); // Estado inicial
 
-        System.out.println("Reserva criada: ID = " + idReserva + ", Cliente = " + nomeCliente + ", Data = " + dataReserva);
-        notifyObservers("Reserva inicializada para o cliente: " + nomeCliente);
+            System.out.println("Reserva criada: ID = " + idReserva + ", Cliente = " + nomeCliente + ", Data = " + dataReserva);
+            notifyObservers("Reserva inicializada para o cliente: " + nomeCliente);
+        } catch (Exception e) {
+            System.out.println("Erro ao criar a reserva: " + e.getMessage());
+        }
     }
 
     public void setEstado(EstadoReserva estado) {
-        this.estado = estado;
-        System.out.println("Estado da reserva atualizado para: " + estado.getClass().getSimpleName());
-        notifyObservers("Estado da reserva alterado para: " + estado.getClass().getSimpleName());
+        try {
+            if (getObservers().isEmpty()) {
+                throw new IllegalStateException("A reserva não pode mudar de estado sem ter pelo menos um observador.");
+            }
+
+            if (!isOperacaoConcretizada()) {
+                throw new IllegalStateException("A operação relacionada não foi concretizada. O estado não pode ser alterado.");
+            }
+
+            this.estado = estado;
+            System.out.println("Estado da reserva atualizado para: " + estado.getClass().getSimpleName());
+            notifyObservers("Estado da reserva alterado para: " + estado.getClass().getSimpleName());
+        } catch (IllegalStateException e) {
+            System.out.println("Erro: " + e.getMessage());
+        } catch (Exception e) {
+            System.out.println("Erro inesperado ao alterar o estado da reserva: " + e.getMessage());
+        }
     }
 
     public EstadoReserva getEstado() {
@@ -43,25 +57,42 @@ public class Reserva extends Observable {
     }
 
     public void confirmar() {
-        estado.confirmar();
+        try {
+            estado.confirmar();
+        } catch (Exception e) {
+            System.out.println("Erro ao confirmar a reserva: " + e.getMessage());
+        }
     }
 
     public void cancelar() {
-        estado.cancelar();
+        try {
+            estado.cancelar();
+        } catch (Exception e) {
+            System.out.println("Erro ao cancelar a reserva: " + e.getMessage());
+        }
     }
 
     public void concluir() {
-        estado.concluir();
+        try {
+            estado.concluir();
+        } catch (Exception e) {
+            System.out.println("Erro ao concluir a reserva: " + e.getMessage());
+        }
+    }
+
+    private boolean isOperacaoConcretizada() {
+        return true; 
     }
 
     @Override
     public String toString() {
-        return "ReservaTAD{" +
+        return "Reserva{" +
                 "idReserva='" + idReserva + '\'' +
                 ", nomeCliente='" + nomeCliente + '\'' +
                 ", dataReserva='" + dataReserva + '\'' +
                 ", estado=" + estado.getClass().getSimpleName() +
                 '}';
     }
+
 }
 

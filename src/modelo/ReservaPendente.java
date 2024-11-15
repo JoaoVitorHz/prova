@@ -1,6 +1,5 @@
 package modelo;
 
-//Estado para reserva pedente
 public class ReservaPendente implements EstadoReserva{
     @Override
     public void confirmar() {

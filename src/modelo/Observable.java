@@ -6,27 +6,40 @@ import java.util.List;
 public class Observable {
     private List<Observer> observers = new ArrayList<>();
 
-    // Método para adicionar um observador
     public void addObserver(Observer observer) {
-        if (!observers.contains(observer)) {
-            observers.add(observer);
-            System.out.println("Observador adicionado: " + observer.getClass().getSimpleName());
+        try {
+            if (!observers.contains(observer)) {
+                observers.add(observer);
+                System.out.println("Observador adicionado: " + observer.getClass().getSimpleName());
+            }
+        } catch (Exception e) {
+            System.out.println("Erro ao adicionar observador: " + e.getMessage());
         }
     }
 
-    // Método para remover um observador
     public void removeObserver(Observer observer) {
-        if (observers.remove(observer)) {
-            System.out.println("Observador removido: " + observer.getClass().getSimpleName());
-        } else {
-            System.out.println("Observador não encontrado: " + observer.getClass().getSimpleName());
+        try {
+            if (observers.remove(observer)) {
+                System.out.println("Observador removido: " + observer.getClass().getSimpleName());
+            } else {
+                System.out.println("Observador não encontrado: " + observer.getClass().getSimpleName());
+            }
+        } catch (Exception e) {
+            System.out.println("Erro ao remover observador: " + e.getMessage());
         }
     }
 
-    // Método para notificar todos os observadores
     public void notifyObservers(String mensagem) {
         for (Observer observer : observers) {
-            observer.update(mensagem);
+            try {
+                observer.update(mensagem);
+            } catch (Exception e) {
+                System.out.println("Erro ao notificar observador " + observer.getClass().getSimpleName() + ": " + e.getMessage());
+            }
         }
+    }
+
+    protected List<Observer> getObservers() {
+        return observers;
     }
 }
